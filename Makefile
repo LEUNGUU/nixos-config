@@ -1,7 +1,7 @@
 # Connectivity info for Linux VM
 NIXADDR ?= unset
 NIXPORT ?= 22
-NIXUSER ?= mitchellh
+NIXUSER ?= yuriliang
 
 # Get the path to this Makefile and directory
 MAKEFILE_DIR := $(patsubst %/,%,$(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
@@ -66,8 +66,7 @@ vm/bootstrap0:
 		sed --in-place '/system\.stateVersion = .*/a \
 			nix.package = pkgs.nixUnstable;\n \
 			nix.extraOptions = \"experimental-features = nix-command flakes\";\n \
-			nix.binaryCaches = [\"https://mitchellh-nixos-config.cachix.org\"];\n \
-			nix.binaryCachePublicKeys = [\"mitchellh-nixos-config.cachix.org-1:bjEbXJyLrL1HZZHBbO4QALnI5faYZppzkU4D2s0G8RQ=\"];\n \
+			nix.settings.substituters = [\"https://mirrors.ustc.edu.cn/nix-channels/store\"];\n \
   			services.openssh.enable = true;\n \
 			services.openssh.passwordAuthentication = true;\n \
 			services.openssh.permitRootLogin = \"yes\";\n \
@@ -76,6 +75,10 @@ vm/bootstrap0:
 		nixos-install --no-root-passwd; \
 		reboot; \
 	"
+
+# nix.binaryCachePublicKeys = [\"mitchellh-nixos-config.cachix.org-1:bjEbXJyLrL1HZZHBbO4QALnI5faYZppzkU4D2s0G8RQ=\"];\n \
+# nix.settings.substituters = [ "https://mirrors.ustc.edu.cn/nix-channels/store" ];
+
 
 # after bootstrap0, run this to finalize. After this, do everything else
 # in the VM unless secrets change.

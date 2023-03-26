@@ -103,18 +103,17 @@ in {
     };
   };
 
-  programs.direnv= {
+  programs.zsh = {
     enable = true;
 
-    config = {
-      whitelist = {
-        prefix= [
-          "$HOME/code/go/src/github.com/hashicorp"
-          "$HOME/code/go/src/github.com/mitchellh"
-        ];
-
-        exact = ["$HOME/.envrc"];
-      };
+    enableAutosuggestions = true;
+    enableCompletion = true;
+    enableSyntaxHighlighting = true;
+    history = {
+      expireDuplicatesFirst = true;
+      extended = true;
+      save = 20000;
+      size = 20000;
     };
   };
 
@@ -122,7 +121,6 @@ in {
     enable = true;
     interactiveShellInit = lib.strings.concatStrings (lib.strings.intersperse "\n" [
       "source ${sources.theme-bobthefish}/functions/fish_prompt.fish"
-      "source ${sources.theme-bobthefish}/functions/fish_right_prompt.fish"
       "source ${sources.theme-bobthefish}/functions/fish_title.fish"
       (builtins.readFile ./config.fish)
       "set -g SHELL ${pkgs.fish}/bin/fish"
@@ -149,7 +147,6 @@ in {
       name = n;
       src  = sources.${n};
     }) [
-      "fish-fzf"
       "fish-foreign-env"
       "theme-bobthefish"
     ];
@@ -157,10 +154,10 @@ in {
 
   programs.git = {
     enable = true;
-    userName = "Mitchell Hashimoto";
-    userEmail = "mitchell.hashimoto@gmail.com";
+    userName = "leunguu";
+    userEmail = "liangy3928@gmail.com";
     signing = {
-      key = "523D5DC389D273BC";
+      key = "E60E9B15F0619B00";
       signByDefault = true;
     };
     aliases = {
@@ -172,7 +169,7 @@ in {
       color.ui = true;
       core.askPass = ""; # needs to be empty to use terminal for ask pass
       credential.helper = "store"; # want to make this more secure
-      github.user = "mitchellh";
+      github.user = "leunguu";
       push.default = "tracking";
       init.defaultBranch = "main";
     };
@@ -181,13 +178,12 @@ in {
   programs.go = {
     enable = true;
     goPath = "code/go";
-    goPrivate = [ "github.com/mitchellh" "github.com/hashicorp" "rfc822.mx" ];
   };
 
   programs.tmux = {
     enable = true;
     terminal = "xterm-256color";
-    shortcut = "l";
+    shortcut = "x";
     secureSocket = false;
 
     extraConfig = ''
@@ -202,23 +198,6 @@ in {
       run-shell ${sources.tmux-pain-control}/pain_control.tmux
       run-shell ${sources.tmux-dracula}/dracula.tmux
     '';
-  };
-
-  programs.alacritty = {
-    enable = true;
-
-    settings = {
-      env.TERM = "xterm-256color";
-
-      key_bindings = [
-        { key = "K"; mods = "Command"; chars = "ClearHistory"; }
-        { key = "V"; mods = "Command"; action = "Paste"; }
-        { key = "C"; mods = "Command"; action = "Copy"; }
-        { key = "Key0"; mods = "Command"; action = "ResetFontSize"; }
-        { key = "Equals"; mods = "Command"; action = "IncreaseFontSize"; }
-        { key = "Subtract"; mods = "Command"; action = "DecreaseFontSize"; }
-      ];
-    };
   };
 
   programs.kitty = {
@@ -248,18 +227,8 @@ in {
     package = pkgs.neovim-nightly;
 
     plugins = with pkgs; [
-      customVim.vim-cue
-      customVim.vim-fish
-      customVim.vim-fugitive
-      customVim.vim-glsl
-      customVim.vim-misc
-      customVim.vim-pgsql
-      customVim.vim-tla
-      customVim.vim-zig
-      customVim.pigeon
-      customVim.AfterColors
+      customVim.nvim-config
 
-      customVim.vim-nord
       customVim.nvim-comment
       customVim.nvim-lspconfig
       customVim.nvim-plenary # required for telescope
@@ -267,15 +236,6 @@ in {
       customVim.nvim-treesitter
       customVim.nvim-treesitter-playground
       customVim.nvim-treesitter-textobjects
-
-      vimPlugins.vim-airline
-      vimPlugins.vim-airline-themes
-      vimPlugins.vim-eunuch
-      vimPlugins.vim-gitgutter
-
-      vimPlugins.vim-markdown
-      vimPlugins.vim-nix
-      vimPlugins.typescript-vim
     ];
 
     extraConfig = (import ./vim-config.nix) { inherit sources; };
