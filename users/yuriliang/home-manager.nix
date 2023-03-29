@@ -69,14 +69,20 @@ in {
   # Rectangle.app. This has to be imported manually using the app.
   xdg.configFile."rectangle/RectangleConfig.json".text = builtins.readFile ./RectangleConfig.json;
 
+  # Nvim config file
+  xdg.configFile.nvim = {
+    source = ./nvim;
+    recursive = true;
+  };
+
   # tree-sitter parsers
-  xdg.configFile."nvim/parser/proto.so".source = "${pkgs.tree-sitter-proto}/parser";
+  /* xdg.configFile."nvim/parser/proto.so".source = "${pkgs.tree-sitter-proto}/parser";
   xdg.configFile."nvim/queries/proto/folds.scm".source =
     "${sources.tree-sitter-proto}/queries/folds.scm";
   xdg.configFile."nvim/queries/proto/highlights.scm".source =
     "${sources.tree-sitter-proto}/queries/highlights.scm";
   xdg.configFile."nvim/queries/proto/textobjects.scm".source =
-    ./textobjects.scm;
+    ./textobjects.scm; */
 
   #---------------------------------------------------------------------
   # Programs
@@ -109,6 +115,7 @@ in {
     enableAutosuggestions = true;
     enableCompletion = true;
     enableSyntaxHighlighting = true;
+    defaultKeymap = "emacs";
     history = {
       expireDuplicatesFirst = true;
       extended = true;
@@ -227,8 +234,35 @@ in {
     package = pkgs.neovim-nightly;
 
     plugins = with pkgs; [
-      customVim.nvim-config
-
+      customVim.rose-pine
+      customVim.lsp-zero
+      customVim.mason
+      customVim.mason-lspconfig
+      customVim.nvim-cmp
+      customVim.cmp-buffer
+      customVim.cmp-path
+      customVim.cmp-nvim-lsp
+      customVim.cmp-nvim-lua
+      customVim.LuaSnip
+      customVim.neo-tree
+      customVim.cmp_luasnip
+      customVim.nvim-web-devicons
+      customVim.nvim-nui
+      customVim.nvim-persisted
+      customVim.nvim-autopairs
+      customVim.nvim-gitsigns
+      customVim.null-ls
+      customVim.nvim-lualine
+      customVim.telescope-ui-select
+      customVim.nvim-colorizer
+      customVim.goto-preview
+      customVim.nvim-neodev
+      customVim.lsp-signature
+      customVim.todo-comments
+      customVim.nvim-trouble
+      customVim.nvim-surround
+      customVim.vim-arsync
+      customVim.vim-terraform
       customVim.nvim-comment
       customVim.nvim-lspconfig
       customVim.nvim-plenary # required for telescope
@@ -238,7 +272,10 @@ in {
       customVim.nvim-treesitter-textobjects
     ];
 
-    extraConfig = (import ./vim-config.nix) { inherit sources; };
+    /* extraConfig = (import ./vim-config.nix) { inherit sources; }; */
+    extraConfig = ''
+      :luafile ~/.config/nvim/lua/init.lua
+    '';
   };
 
   services.gpg-agent = {
