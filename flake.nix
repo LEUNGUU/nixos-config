@@ -1,5 +1,5 @@
 {
-  description = "NixOS systems and tools by mitchellh";
+  description = "NixOS systems and tools by yuriliang";
 
   inputs = {
     # Pin our primary nixpkgs repository. This is the main nixpkgs repository
@@ -32,9 +32,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Other packages
-    zig.url = "github:mitchellh/zig-overlay";
-
     # Other neovim plugins
     nixneovimplugins.url = github:jooooscha/nixpkgs-vim-extra-plugins;
   };
@@ -46,7 +43,6 @@
     # Overlays is the list of overlays we want to apply from flake inputs.
     overlays = [
       inputs.neovim-nightly-overlay.overlay
-      inputs.zig.overlays.default
       inputs.nixneovimplugins.overlays.default
     ];
   in {

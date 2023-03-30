@@ -30,20 +30,18 @@ in {
     pkgs.bat
     pkgs.fd
     pkgs.fzf
-    pkgs.htop
+    pkgs.peco
+    pkgs.ghq
     pkgs.jq
     pkgs.ripgrep
     pkgs.tree
     pkgs.watch
 
     pkgs.gopls
-    pkgs.zigpkgs.master
   ] ++ (lib.optionals isLinux [
-    pkgs.chromium
     pkgs.firefox
     pkgs.k2pdfopt
     pkgs.rofi
-    pkgs.zathura
   ]);
 
   #---------------------------------------------------------------------
@@ -74,15 +72,6 @@ in {
     source = ./nvim;
     recursive = true;
   };
-
-  # tree-sitter parsers
-  /* xdg.configFile."nvim/parser/proto.so".source = "${pkgs.tree-sitter-proto}/parser";
-  xdg.configFile."nvim/queries/proto/folds.scm".source =
-    "${sources.tree-sitter-proto}/queries/folds.scm";
-  xdg.configFile."nvim/queries/proto/highlights.scm".source =
-    "${sources.tree-sitter-proto}/queries/highlights.scm";
-  xdg.configFile."nvim/queries/proto/textobjects.scm".source =
-    ./textobjects.scm; */
 
   #---------------------------------------------------------------------
   # Programs
@@ -122,17 +111,6 @@ in {
       save = 20000;
       size = 20000;
     };
-  };
-
-  programs.fish = {
-    enable = true;
-    interactiveShellInit = lib.strings.concatStrings (lib.strings.intersperse "\n" [
-      "source ${sources.theme-bobthefish}/functions/fish_prompt.fish"
-      "source ${sources.theme-bobthefish}/functions/fish_title.fish"
-      (builtins.readFile ./config.fish)
-      "set -g SHELL ${pkgs.fish}/bin/fish"
-    ]);
-
     shellAliases = {
       ga = "git add";
       gc = "git commit";
@@ -143,20 +121,17 @@ in {
       gp = "git push";
       gs = "git status";
       gt = "git tag";
-    } // (if isLinux then {
-      # Two decades of using a Mac has made this such a strong memory
-      # that I'm just going to keep it consistent.
-      pbcopy = "xclip";
-      pbpaste = "xclip -o";
-    } else {});
+    };
+    initExtra = lib.strings.concatStrings (lib.strings.intersperse "\n" [
+      (builtins.readFile ./filters.zsh)
+    ]);
+  };
 
-    plugins = map (n: {
-      name = n;
-      src  = sources.${n};
-    }) [
-      "fish-foreign-env"
-      "theme-bobthefish"
-    ];
+  programs.exa = {
+    enable = true;
+    enableAliases = true;
+    git = true;
+    icons = true;
   };
 
   programs.git = {
@@ -209,6 +184,11 @@ in {
 
   programs.kitty = {
     enable = true;
+    font = {
+      package = pkgs.nerdfonts;
+      name = "SauceCodePro Nerd Font Mono";
+      size = "12";
+    };
     extraConfig = builtins.readFile ./kitty;
   };
 
@@ -286,10 +266,12 @@ in {
       # Others
       vimExtraPlugins.persisted-nvim
       vimExtraPlugins.nvim-treesitter-textobjects
+      vimExtraPlugins.nvim-surround
 
       customVim.lsp-zero
       customVim.nvim-colorizer
       customVim.vim-arsync
+      customVim.mason-lspconfig
     ];
 
     extraPackages = with pkgs; [
@@ -308,11 +290,8 @@ in {
       nodePackages.pyright
       # python-debug
       black
-      # Telescope tools
-      fd
     ];
 
-    /* extraConfig = (import ./vim-config.nix) { inherit sources; }; */
     extraConfig = ''
       :luafile ~/.config/nvim/lua/init.lua
     '';
