@@ -231,45 +231,85 @@ in {
 
   programs.neovim = {
     enable = true;
+    viAlias = true;
+    vimAlias = true;
+    vimdiffAlias = true;
     package = pkgs.neovim-nightly;
 
     plugins = with pkgs; [
-      customVim.rose-pine
+      vimExtraPlugins.rose-pine
+      vimExtraPlugins.nui-nvim
+      vimExtraPlugins.nvim-web-devicons
+      vimExtraPlugins.neo-tree-nvim
+      vimExtraPlugins.lualine-nvim
+      vimExtraPlugins.gitsigns-nvim
+      vimExtraPlugins.nvim-autopairs
+
+      # telescope
+      vimExtraPlugins.plenary-nvim
+      vimExtraPlugins.telescope-nvim
+      vimPlugins.telescope-ui-select-nvim
+      # diagnostic
+      vimExtraPlugins.trouble-nvim
+      # comment
+      vimPlugins.comment-nvim
+      vimExtraPlugins.todo-comments-nvim
+      # Syntax highlighting
+      (vimPlugins.nvim-treesitter.withPlugins
+        (p: [
+        p.bash p.cmake p.dockerfile p.gitignore p.go p.json p.python p.yaml p.toml p.markdown
+        ])
+      )
+
+      #LSP
+      vimExtraPlugins.nvim-lspconfig
+      vimExtraPlugins.goto-preview
+      vimPlugins.vim-terraform
+      vimExtraPlugins.mason-nvim
+
+      # Linting
+      vimExtraPlugins.null-ls-nvim
+
+      # Completion
+      vimExtraPlugins.cmp-nvim-lsp
+      vimExtraPlugins.cmp-nvim-lua
+      vimExtraPlugins.cmp-buffer
+      vimExtraPlugins.cmp-path
+      vimExtraPlugins.nvim-cmp
+      vimExtraPlugins.cmp-cmdline
+
+      # Snippets
+      vimExtraPlugins.LuaSnip
+      vimExtraPlugins.cmp-luasnip
+      vimExtraPlugins.neodev-nvim
+
+      # Others
+      vimExtraPlugins.persisted-nvim
+      vimExtraPlugins.nvim-treesitter-textobjects
+
       customVim.lsp-zero
-      customVim.mason
-      customVim.mason-lspconfig
-      customVim.nvim-cmp
-      customVim.cmp-buffer
-      customVim.cmp-path
-      customVim.cmp-nvim-lsp
-      customVim.cmp-nvim-lua
-      customVim.LuaSnip
-      customVim.neo-tree
-      customVim.cmp_luasnip
-      customVim.nvim-web-devicons
-      customVim.nvim-nui
-      customVim.nvim-persisted
-      customVim.nvim-autopairs
-      customVim.nvim-gitsigns
-      customVim.null-ls
-      customVim.nvim-lualine
-      customVim.telescope-ui-select
       customVim.nvim-colorizer
-      customVim.goto-preview
-      customVim.nvim-neodev
-      customVim.lsp-signature
-      customVim.todo-comments
-      customVim.nvim-trouble
-      customVim.nvim-surround
       customVim.vim-arsync
-      customVim.vim-terraform
-      customVim.nvim-comment
-      customVim.nvim-lspconfig
-      customVim.nvim-plenary # required for telescope
-      customVim.nvim-telescope
-      customVim.nvim-treesitter
-      customVim.nvim-treesitter-playground
-      customVim.nvim-treesitter-textobjects
+    ];
+
+    extraPackages = with pkgs; [
+      tree-sitter
+      nodejs
+      # Language Servers
+      # Bash
+      nodePackages.bash-language-server
+      # Lua
+      sumneko-lua-language-server
+      # Nix
+      rnix-lsp
+      nixpkgs-fmt
+      statix
+      # Python
+      nodePackages.pyright
+      # python-debug
+      black
+      # Telescope tools
+      fd
     ];
 
     /* extraConfig = (import ./vim-config.nix) { inherit sources; }; */

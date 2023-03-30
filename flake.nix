@@ -34,6 +34,9 @@
 
     # Other packages
     zig.url = "github:mitchellh/zig-overlay";
+
+    # Other neovim plugins
+    nixneovimplugins.url = github:jooooscha/nixpkgs-vim-extra-plugins;
   };
 
   outputs = { self, nixpkgs, home-manager, darwin, ... }@inputs: let
@@ -44,6 +47,7 @@
     overlays = [
       inputs.neovim-nightly-overlay.overlay
       inputs.zig.overlays.default
+      inputs.nixneovimplugins.overlays.default
     ];
   in {
     nixosConfigurations.vm-aarch64 = mkVM "vm-aarch64" {

@@ -3,13 +3,6 @@
 local lsp = require('lsp-zero')
 lsp.preset('recommended')
 
-lsp.ensure_installed({
-    'sumneko_lua',
-    'cmake',
-    'pyright'
-})
-
-
 -- Fix Undefined global 'vim'
 lsp.configure('sumneko_lua', {
     settings = {
