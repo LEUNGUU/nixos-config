@@ -131,11 +131,11 @@ in {
   programs.starship = {
     enable = true;
     enableZshIntegration = true;
-    character = {
-      success_symbol = "[➜](bold green)";
-      error_symbol = "[➜](bold red)";
-    };
     settings = {
+      character = {
+        success_symbol = "[➜](bold green)";
+        error_symbol = "[➜](bold red)";
+      };
       format = lib.concatStrings [
         "$username"
         "$hostname"
@@ -184,16 +184,9 @@ in {
       aws = {
         disabled = true;
         symbol = "  ";
-        format = "\\[[$symbol($profile)(\\($region\))(\\[$duration\\])]($style)\\]";
       };
       buf = {
         symbol = " ";
-      };
-      cmake = {
-        format = "\\[[$symbol($version)]($style)\\]";
-      };
-      cmd_duration = {
-        format = "\\[[$duration]($style)\\]";
       };
       directory = {
         read_only = " ";
@@ -201,79 +194,39 @@ in {
       docker_context = {
         disabled = true;
         symbol = " ";
-        format = "\\[[$symbol$context]($style)\\]";
       };
       git_branch = {
         symbol = " ";
-        format = "\\[[$symbol$branch]($style)\\]";
-      };
-      git_status = {
-        stashed = "";
-        format = "([\\[$all_status$ahead_behind\\]]($style))";
       };
       golang = {
         symbol = " ";
-        format = "\\[[$symbol($version)]($style)\\]";
-      };
-      helm = {
-        format = "\\[[$symbol($version)]($style)\\]";
       };
       hg_branch = {
         symbol = " ";
-        format = "\\[[$symbol$branch]($style)\\]";
       };
       java = {
         symbol = " ";
-        format = "\\[[$symbol($version)]($style)\\]";
-      };
-      kubernetes = {
-        format = "\\[[$symbol$context( \\($namespace\\))]($style)\\]";
       };
       lua = {
         symbol = " ";
-        format = "\\[[$symbol($version)]($style)\\]";
       };
       memory_usage = {
         symbol = " ";
-        format = "\\[$symbol[$ram( | $swap)]($style)\\]";
       };
       nix_shell = {
         symbol = " ";
-        format = "\\[[$symbol$state( \\($name\\))]($style)\\]";
       };
       nodejs = {
         symbol = " ";
-        format = "\\[[$symbol($version)]($style)\\]";
-      };
-      openstack = {
-        format = "\\[[$symbol$cloud(\\($project\\))]($style)\\]";
-      };
-      pulumi = {
-        format = "\\[[$symbol$stack]($style)\\]";
       };
       python = {
         symbol = " ";
-        format = "\\[[\${symbol}\${pyenv_prefix}(\${version})(\\($virtualenv\\))]($style)\\]";
       };
       ruby = {
         symbol = " ";
-        format = "\\[[$symbol($version)]($style)\\]";
       };
       rust = {
         symbol = " ";
-        format = "\\[[$symbol($version)]($style)\\]";
-      };
-      sudo = {
-        format = "\\[[as $symbol]\\]";
-      };
-      terraform = {
-        format = "\\[[$symbol$workspace]($style)\\]";
-      };
-      time = {
-        format = "\\[[$time]($style)\\]";
-      };
-      username = {
-        format = "\\[[$user]($style)\\]";
       };
     };
   };
@@ -322,6 +275,8 @@ in {
       set -g @dracula-show-battery false
       set -g @dracula-show-network false
       set -g @dracula-show-weather false
+      set -g @dracula-show-powerline true
+      set -g @dracula-left-icon-padding 1
 
       run-shell ${sources.tmux-pain-control}/pain_control.tmux
       run-shell ${sources.tmux-dracula}/dracula.tmux
