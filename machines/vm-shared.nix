@@ -106,7 +106,7 @@
     fontDir.enable = true;
 
     fonts = [
-      pkgs.fira-code
+      (pkgs.nerdfonts.override { fonts = ["SourceCodePro" "FiraCode"]; })
     ];
   };
 
@@ -123,7 +123,11 @@
     # For hypervisors that support auto-resizing, this script forces it.
     # I've noticed not everyone listens to the udev events so this is a hack.
     (writeShellScriptBin "xrandr-auto" ''
-      xrandr --output Virtual-1 --auto
+      # This not works for me. I need to specify the resolution here.
+      # xrandr --output Virtual-1 --auto
+      xrandr --newmode "3840x2160_60.00" 712.34 3840 4152 4576 5312 2160 2161 2164 2235 -HSync +Vsync
+      xrandr --addmode Virtual-1 "3840x2160_60.00"
+      xrandr --output Virtual-1 --mode "3840x2160_60.00"
     '')
   ] ++ lib.optionals (currentSystemName == "vm-aarch64") [
     # This is needed for the vmware user tools clipboard to work.

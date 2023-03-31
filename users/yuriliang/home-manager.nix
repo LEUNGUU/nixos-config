@@ -126,12 +126,159 @@ in {
       (builtins.readFile ./filters.zsh)
     ]);
   };
+  programs.starship = {
+    enable = true;
+    enableZshIntegration = true;
+    character = {
+      success_symbol = "[➜](bold green)";
+      error_symbol = "[➜](bold red)";
+    };
+    settings = {
+      format = lib.concatStrings [
+        "$username"
+        "$hostname"
+        "$localip"
+        "$shlvl"
+        "$singularity"
+        "$kubernetes"
+        "$directory"
+        "$vcsh"
+        "$git_branch"
+        "$git_commit"
+        "$git_state"
+        "$git_metrics"
+        "$git_status"
+        "$hg_branch"
+        "$docker_context"
+        "$package"
+        "$cmake"
+        "$golang"
+        "$helm"
+        "$lua"
+        "$nodejs"
+        "$pulumi"
+        "$python"
+        "$ruby"
+        "$rust"
+        "$terraform"
+        "$buf"
+        "$nix_shell"
+        "$memory_usage"
+        "$aws"
+        "$gcloud"
+        "$openstack"
+        "$azure"
+        "$env_var"
+        "$custom"
+        "$sudo"
+        "$cmd_duration"
+        "$line_break"
+        "$jobs"
+        "$status"
+        "$container"
+        "$shell"
+        "$character"
+      ];
+      aws = {
+        disabled = true;
+        symbol = "  ";
+        format = "\\[[$symbol($profile)(\\($region\))(\\[$duration\\])]($style)\\]";
+      };
+      buf = {
+        symbol = " ";
+      };
+      cmake = {
+        format = "\\[[$symbol($version)]($style)\\]";
+      };
+      cmd_duration = {
+        format = "\\[[$duration]($style)\\]";
+      };
+      directory = {
+        read_only = " ";
+      };
+      docker_context = {
+        disabled = true;
+        symbol = " ";
+        format = "\\[[$symbol$context]($style)\\]";
+      };
+      git_branch = {
+        symbol = " ";
+        format = "\\[[$symbol$branch]($style)\\]";
+      };
+      git_status = {
+        stashed = "";
+        format = "([\\[$all_status$ahead_behind\\]]($style))";
+      };
+      golang = {
+        symbol = " ";
+        format = "\\[[$symbol($version)]($style)\\]";
+      };
+      helm = {
+        format = "\\[[$symbol($version)]($style)\\]";
+      };
+      hg_branch = {
+        symbol = " ";
+        format = "\\[[$symbol$branch]($style)\\]";
+      };
+      java = {
+        symbol = " ";
+        format = "\\[[$symbol($version)]($style)\\]";
+      };
+      kubernetes = {
+        format = "\\[[$symbol$context( \\($namespace\\))]($style)\\]";
+      };
+      lua = {
+        symbol = " ";
+        format = "\\[[$symbol($version)]($style)\\]";
+      };
+      memory_usage = {
+        symbol = " ";
+        format = "\\[$symbol[$ram( | $swap)]($style)\\]";
+      };
+      nix_shell = {
+        symbol = " ";
+        format = "\\[[$symbol$state( \\($name\\))]($style)\\]";
+      };
+      nodejs = {
+        symbol = " ";
+        format = "\\[[$symbol($version)]($style)\\]";
+      };
+      openstack = {
+        format = "\\[[$symbol$cloud(\\($project\\))]($style)\\]";
+      };
+      pulumi = {
+        format = "\\[[$symbol$stack]($style)\\]";
+      };
+      python = {
+        symbol = " ";
+        format = "\\[[\${symbol}\${pyenv_prefix}(\${version})(\\($virtualenv\\))]($style)\\]";
+      };
+      ruby = {
+        symbol = " ";
+        format = "\\[[$symbol($version)]($style)\\]";
+      };
+      rust = {
+        symbol = " ";
+        format = "\\[[$symbol($version)]($style)\\]";
+      };
+      sudo = {
+        format = "\\[[as $symbol]\\]";
+      };
+      terraform = {
+        format = "\\[[$symbol$workspace]($style)\\]";
+      };
+      time = {
+        format = "\\[[$time]($style)\\]";
+      };
+      username = {
+        format = "\\[[$user]($style)\\]";
+      };
+    };
+  };
 
   programs.exa = {
     enable = true;
     enableAliases = true;
-    git = true;
-    icons = true;
   };
 
   programs.git = {
@@ -175,20 +322,33 @@ in {
       set -g @dracula-show-network false
       set -g @dracula-show-weather false
 
-      bind -n C-k send-keys "clear"\; send-keys "Enter"
-
       run-shell ${sources.tmux-pain-control}/pain_control.tmux
       run-shell ${sources.tmux-dracula}/dracula.tmux
+      set -g base-index 1
+      set-option -g renumber-windows on
+      # copy-mode
+      bind Enter copy-mode # enter copy mode
+
+      run -b 'tmux bind -t vi-copy v begin-selection 2> /dev/null || true'
+      run -b 'tmux bind -T copy-mode-vi v send -X begin-selection 2> /dev/null || true'
+      run -b 'tmux bind -t vi-copy C-v rectangle-toggle 2> /dev/null || true'
+      run -b 'tmux bind -T copy-mode-vi C-v send -X rectangle-toggle 2> /dev/null || true'
+      run -b 'tmux bind -t vi-copy y copy-selection 2> /dev/null || true'
+      run -b 'tmux bind -T copy-mode-vi y send -X copy-selection-and-cancel 2> /dev/null || true'
+      run -b 'tmux bind -t vi-copy Escape cancel 2> /dev/null || true'
+      run -b 'tmux bind -T copy-mode-vi Escape send -X cancel 2> /dev/null || true'
+      run -b 'tmux bind -t vi-copy H start-of-line 2> /dev/null || true'
+      run -b 'tmux bind -T copy-mode-vi H send -X start-of-line 2> /dev/null || true'
+      run -b 'tmux bind -t vi-copy L end-of-line 2> /dev/null || true'
+      run -b 'tmux bind -T copy-mode-vi L send -X end-of-line 2> /dev/null || true'
+      # X11 clipboard
+      if -b 'command -v xsel > /dev/null 2>&1' 'bind y run -b "tmux save-buffer - | xsel -i -b"'
+      if -b '! command -v xsel > /dev/null 2>&1 && command -v xclip > /dev/null 2>&1' 'bind y run -b "tmux save-buffer - | xclip -i -selection clipboard >/dev/null 2>&1"'
     '';
   };
 
   programs.kitty = {
     enable = true;
-    font = {
-      package = pkgs.nerdfonts;
-      name = "SauceCodePro Nerd Font Mono";
-      size = "12";
-    };
     extraConfig = builtins.readFile ./kitty;
   };
 
