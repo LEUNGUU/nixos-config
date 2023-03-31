@@ -112,6 +112,8 @@ in {
       size = 20000;
     };
     shellAliases = {
+      ll="exa -l -g --icons";
+      ls = "exa --icons";
       ga = "git add";
       gc = "git commit";
       gco = "git checkout";
@@ -278,7 +280,6 @@ in {
 
   programs.exa = {
     enable = true;
-    enableAliases = true;
   };
 
   programs.git = {
