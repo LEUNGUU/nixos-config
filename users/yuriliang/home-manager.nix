@@ -60,6 +60,11 @@ in {
   home.file.".gdbinit".source = ./gdbinit;
   home.file.".inputrc".source = ./inputrc;
 
+  home.file.".config/tmuxMaster" = {
+    source = ./tmuxMaster;
+    recursive = true;
+  };
+
   xdg.configFile."i3/config".text = builtins.readFile ./i3;
   xdg.configFile."rofi/config.rasi".text = builtins.readFile ./rofi;
   xdg.configFile."devtty/config".text = builtins.readFile ./devtty;
