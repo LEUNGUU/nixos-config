@@ -127,8 +127,13 @@ in {
     };
     initExtra = lib.strings.concatStrings (lib.strings.intersperse "\n" [
       (builtins.readFile ./filters.zsh)
+      "if [ -z \"$TMUX\" ]; then tmux attach -t TMUX || tmux new -s TMUX; fi"
+    ]);
+    envExtra = lib.strings.concatStrings (lib.strings.intersperse "\n" [
+      "export GHQ_ROOT=\"$HOME/development\""
     ]);
   };
+
   programs.starship = {
     enable = true;
     enableZshIntegration = true;
@@ -272,17 +277,13 @@ in {
 
     extraConfig = ''
       set -ga terminal-overrides ",*256col*:Tc"
-
-      set -g @dracula-show-battery false
-      set -g @dracula-show-network false
-      set -g @dracula-show-weather false
-      set -g @dracula-show-powerline true
-      set -g @dracula-left-icon-padding 1
-
+      set-option -g default-terminal "screen-256color"
       run-shell ${sources.tmux-pain-control}/pain_control.tmux
-      run-shell ${sources.tmux-dracula}/dracula.tmux
+      set -g status-style 'bg=#333333 fg=#5eacd3'
       set -g base-index 1
       set-option -g renumber-windows on
+      set -s escape-time 0
+
       # copy-mode
       bind Enter copy-mode # enter copy mode
       setw -g mode-keys vi

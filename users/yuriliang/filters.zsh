@@ -41,7 +41,6 @@ if (( $+commands[peco] )); then
 fi
 
 
-export GHQ_ROOT="$HOME/development"
 if (( $+commands[peco] )); then
   ZSH_PECO_GHQ_FILTER=${ZSH_PECO_GHQ_FILTER:-IgnoreCase}
   function zsh-peco-ghq () {
