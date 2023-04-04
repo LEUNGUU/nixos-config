@@ -18,6 +18,13 @@ SSH_OPTIONS=-o PubkeyAuthentication=no -o UserKnownHostsFile=/dev/null -o Strict
 UNAME := $(shell uname)
 
 switch:
+	sudo rsync -av \
+		--delete \
+    	--exclude='vendor/' \
+    	--exclude='.git/' \
+    	--exclude='.git-crypt/' \
+    	--exclude='iso/' \
+    	$(MAKEFILE_DIR)/ /nix-config
 ifeq ($(UNAME), Darwin)
 	nix build ".#darwinConfigurations.${NIXNAME}.system"
 	./result/sw/bin/darwin-rebuild switch --flake "$$(pwd)#${NIXNAME}"

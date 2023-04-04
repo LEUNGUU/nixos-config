@@ -60,9 +60,10 @@ in {
   home.file.".gdbinit".source = ./gdbinit;
   home.file.".inputrc".source = ./inputrc;
 
-  home.file.".config/tmuxMaster" = {
+  home.file.".local/bin" = {
     source = ./tmuxMaster;
     recursive = true;
+    executable = true;
   };
 
   xdg.configFile."i3/config".text = builtins.readFile ./i3;
@@ -293,21 +294,13 @@ in {
       bind Enter copy-mode # enter copy mode
       setw -g mode-keys vi
 
-      run -b 'tmux bind -t vi-copy v begin-selection 2> /dev/null || true'
-      run -b 'tmux bind -T copy-mode-vi v send -X begin-selection 2> /dev/null || true'
-      run -b 'tmux bind -t vi-copy C-v rectangle-toggle 2> /dev/null || true'
-      run -b 'tmux bind -T copy-mode-vi C-v send -X rectangle-toggle 2> /dev/null || true'
-      run -b 'tmux bind -t vi-copy y copy-selection 2> /dev/null || true'
-      run -b 'tmux bind -T copy-mode-vi y send -X copy-selection-and-cancel 2> /dev/null || true'
-      run -b 'tmux bind -t vi-copy Escape cancel 2> /dev/null || true'
-      run -b 'tmux bind -T copy-mode-vi Escape send -X cancel 2> /dev/null || true'
-      run -b 'tmux bind -t vi-copy H start-of-line 2> /dev/null || true'
-      run -b 'tmux bind -T copy-mode-vi H send -X start-of-line 2> /dev/null || true'
-      run -b 'tmux bind -t vi-copy L end-of-line 2> /dev/null || true'
-      run -b 'tmux bind -T copy-mode-vi L send -X end-of-line 2> /dev/null || true'
+      bind -T copy-mode-vi v send-keys -X begin-selection
+      bind -T copy-mode-vi y send-keys -X copy-pipe-and-cancel 'xclip -in -selection clipboard'
+
+
       # X11 clipboard
-      if -b 'command -v xsel > /dev/null 2>&1' 'bind y run -b "tmux save-buffer - | xsel -i -b"'
-      if -b '! command -v xsel > /dev/null 2>&1 && command -v xclip > /dev/null 2>&1' 'bind y run -b "tmux save-buffer - | xclip -i -selection clipboard >/dev/null 2>&1"'
+      # if -b 'command -v xsel > /dev/null 2>&1' 'bind y run -b "tmux save-buffer - | xsel -i -b"'
+      # if -b '! command -v xsel > /dev/null 2>&1 && command -v xclip > /dev/null 2>&1' 'bind y run -b "tmux save-buffer - | xclip -i -selection clipboard >/dev/null 2>&1"'
       # vim tmux navigator
       # Smart pane switching with awareness of Vim splits.
       # See: https://github.com/christoomey/vim-tmux-navigator
@@ -328,6 +321,9 @@ in {
       bind-key -T copy-mode-vi 'C-k' select-pane -U
       bind-key -T copy-mode-vi 'C-l' select-pane -R
       bind-key -T copy-mode-vi 'C-\' select-pane -l
+
+      bind-key -r f run-shell "tmux neww 'bash ~/.local/bin/tmux-sessioner'"
+      bind-key -r i run-shell "tmux neww 'bash ~/.local/bin/tmux-cht'"
     '';
   };
 
