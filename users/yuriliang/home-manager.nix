@@ -36,6 +36,8 @@ in {
     pkgs.ripgrep
     pkgs.tree
     pkgs.watch
+    pkgs.direnv
+    pkgs.nix-direnv
 
     pkgs.gopls
   ] ++ (lib.optionals isLinux [
