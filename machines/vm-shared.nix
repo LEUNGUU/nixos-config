@@ -17,9 +17,9 @@
     # this, use your own, or toss it. Its typically safe to use a binary cache
     # since the data inside is checksummed.
     settings = {
-      substituters = ["https://mirrors.ustc.edu.cn/nix-channels/store"];
-      # substituters = ["https://mitchellh-nixos-config.cachix.org"];
-      # trusted-public-keys = ["mitchellh-nixos-config.cachix.org-1:bjEbXJyLrL1HZZHBbO4QALnI5faYZppzkU4D2s0G8RQ="];
+      # substituters = ["https://mirrors.ustc.edu.cn/nix-channels/store"];
+      substituters = ["https://mitchellh-nixos-config.cachix.org"];
+      trusted-public-keys = ["mitchellh-nixos-config.cachix.org-1:bjEbXJyLrL1HZZHBbO4QALnI5faYZppzkU4D2s0G8RQ="];
     };
   };
 
@@ -122,13 +122,12 @@
 
     # For hypervisors that support auto-resizing, this script forces it.
     # I've noticed not everyone listens to the udev events so this is a hack.
-    (writeShellScriptBin "xrandr-auto" ''
-      # This not works for me. I need to specify the resolution here.
-      # xrandr --output Virtual-1 --auto
+    # I change to use a home script
+    /* (writeShellScriptBin "xrandr-auto" ''
       xrandr --newmode "3840x2160_60.00" 712.34 3840 4152 4576 5312 2160 2161 2164 2235 -HSync +Vsync
       xrandr --addmode Virtual-1 "3840x2160_60.00"
       xrandr --output Virtual-1 --mode "3840x2160_60.00"
-    '')
+    '') */
   ] ++ lib.optionals (currentSystemName == "vm-aarch64") [
     # This is needed for the vmware user tools clipboard to work.
     # You can test if you don't need this by deleting this and seeing

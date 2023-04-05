@@ -59,6 +59,7 @@ in {
 
   home.file.".gdbinit".source = ./gdbinit;
   home.file.".inputrc".source = ./inputrc;
+  home.file.".xrandr-4k".source = ./xrandr;
 
   home.file.".local/bin" = {
     source = ./tmuxMaster;
@@ -118,6 +119,7 @@ in {
       size = 20000;
     };
     shellAliases = {
+      xrandr-4k="bash $HOME/.xrandr-4k";
       ll="exa -l -g --icons";
       ls = "exa --icons";
       ga = "git add";
