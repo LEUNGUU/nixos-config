@@ -138,6 +138,7 @@ in {
     initExtra = lib.strings.concatStrings (lib.strings.intersperse "\n" [
       (builtins.readFile ./filters.zsh)
       "if [ -z \"$TMUX\" ]; then tmux attach -t TMUX || tmux new -s TMUX; fi"
+      "eval \"$(direnv hook zsh)\""
     ]);
     envExtra = lib.strings.concatStrings (lib.strings.intersperse "\n" [
       "export GHQ_ROOT=\"$HOME/development\""
@@ -296,6 +297,7 @@ in {
 
       # copy-mode
       bind Enter copy-mode # enter copy mode
+      bind r source-file ~/.config/tmux/tmux.conf
       setw -g mode-keys vi
 
       bind -T copy-mode-vi v send-keys -X begin-selection

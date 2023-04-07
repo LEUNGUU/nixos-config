@@ -1,3 +1,7 @@
+> ## Thanks for Michellh's great NixOS Configurations!
+> 
+> ### This fork is based on Michellh's great work. Hope it can inspire you!
+
 # NixOS System Configurations
 
 This repository contains my NixOS system configurations. This repository
