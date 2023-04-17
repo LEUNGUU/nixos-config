@@ -264,6 +264,7 @@ in {
       prettylog = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(r) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative";
       root = "rev-parse --show-toplevel";
     };
+    ignores = ["flake.nix" "flake.lock" ".envrc" ".direnv/"];
     extraConfig = {
       branch.autosetuprebase = "always";
       color.ui = true;
@@ -391,10 +392,12 @@ in {
       vimExtraPlugins.nvim-lspconfig
       vimExtraPlugins.goto-preview
       vimPlugins.vim-terraform
-      vimExtraPlugins.mason-nvim
+      # vimExtraPlugins.mason-nvim
+      customVim.mason
 
       # Linting
-      vimExtraPlugins.null-ls-nvim
+      # vimExtraPlugins.null-ls-nvim
+      customVim.null-ls
 
       # Completion
       vimExtraPlugins.cmp-nvim-lsp
@@ -439,8 +442,12 @@ in {
       black
     ];
 
+    # Not know why null-ls and persisted cannot be read from
+    # init.lua, I need to put them here
     extraConfig = ''
       :luafile ~/.config/nvim/lua/init.lua
+      :luafile ~/.config/nvim/lua/null-ls.lua
+      :luafile ~/.config/nvim/lua/persisted.lua
     '';
   };
 
