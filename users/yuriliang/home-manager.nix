@@ -322,7 +322,7 @@ in {
           "bind-key -n 'C-\\' if-shell \"$is_vim\" 'send-keys C-\\'  'select-pane -l'"
       if-shell -b '[ "$(echo "$tmux_version >= 3.0" | bc)" = 1 ]' \
           "bind-key -n 'C-\\' if-shell \"$is_vim\" 'send-keys C-\\\\'  'select-pane -l'"
-      
+
       bind-key -T copy-mode-vi 'C-h' select-pane -L
       bind-key -T copy-mode-vi 'C-j' select-pane -D
       bind-key -T copy-mode-vi 'C-k' select-pane -U
@@ -379,7 +379,7 @@ in {
       # diagnostic
       vimExtraPlugins.trouble-nvim
       # comment
-      vimPlugins.comment-nvim
+      customVim.nvim-comment
       vimExtraPlugins.todo-comments-nvim
       # Syntax highlighting
       (vimPlugins.nvim-treesitter.withPlugins
@@ -427,19 +427,7 @@ in {
     extraPackages = with pkgs; [
       tree-sitter
       nodejs
-      # Language Servers
-      # Bash
-      nodePackages.bash-language-server
-      # Lua
-      sumneko-lua-language-server
-      # Nix
-      rnix-lsp
-      nixpkgs-fmt
-      statix
-      # Python
-      nodePackages.pyright
-      # python-debug
-      black
+      luajitPackages.luarocks
     ];
 
     # Not know why null-ls and persisted cannot be read from
@@ -448,6 +436,7 @@ in {
       :luafile ~/.config/nvim/lua/init.lua
       :luafile ~/.config/nvim/lua/null-ls.lua
       :luafile ~/.config/nvim/lua/persisted.lua
+      :luafile ~/.config/nvim/lua/yank-highlight.lua
     '';
   };
 
