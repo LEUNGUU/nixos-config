@@ -45,6 +45,9 @@ require("null-ls").setup({
         -- Python
         builtins.formatting.black,
 
+        -- YAML
+        builtins.formatting.yamlfmt,
+
         -- Shell
         -- builtins.code_actions.shellcheck,
         builtins.diagnostics.shellcheck.with({
