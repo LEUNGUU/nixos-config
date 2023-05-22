@@ -124,6 +124,7 @@ in {
       xrandr-4k="bash $HOME/.xrandr-4k";
       ll="exa -l -g --icons";
       ls = "exa --icons";
+      gpl = "git pull";
       ga = "git add";
       gc = "git commit";
       gco = "git checkout";
@@ -430,13 +431,22 @@ in {
       luajitPackages.luarocks
     ];
 
-    # Not know why null-ls and persisted cannot be read from
-    # init.lua, I need to put them here
     extraConfig = ''
       :luafile ~/.config/nvim/lua/init.lua
       :luafile ~/.config/nvim/lua/null-ls.lua
       :luafile ~/.config/nvim/lua/persisted.lua
       :luafile ~/.config/nvim/lua/yank-highlight.lua
+      :luafile ~/.config/nvim/lua/nvim-surround.lua
+      :luafile ~/.config/nvim/lua/gitsigns.lua
+      :luafile ~/.config/nvim/lua/todo-comments.lua
+      :luafile ~/.config/nvim/lua/autopairs.lua
+      :luafile ~/.config/nvim/lua/colorizer.lua
+      :luafile ~/.config/nvim/lua/goto-preview.lua
+      :luafile ~/.config/nvim/lua/lsp.lua
+      :luafile ~/.config/nvim/lua/neotree.lua
+      :luafile ~/.config/nvim/lua/telescope.lua
+      :luafile ~/.config/nvim/lua/treesitter.lua
+      :luafile ~/.config/nvim/lua/trouble.lua
     '';
   };
 

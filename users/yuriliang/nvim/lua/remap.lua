@@ -35,7 +35,6 @@ vim.keymap.set("x", "<S-Tab>", "<gv")
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 vim.keymap.set("n", "q", vim.cmd.quit)
-vim.keymap.set("i", "<leader>o", "<C-o>o")
 vim.keymap.set("n", "<Leader>tn", "<cmd>setlocal nonumber!<CR>")
 
 

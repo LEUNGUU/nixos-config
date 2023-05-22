@@ -48,6 +48,12 @@ require("null-ls").setup({
         -- YAML
         builtins.formatting.yamlfmt,
 
+        -- TOML
+        builtins.formatting.taplo,
+
+        -- json
+        builtins.formatting.prettierd,
+
         -- Shell
         -- builtins.code_actions.shellcheck,
         builtins.diagnostics.shellcheck.with({
