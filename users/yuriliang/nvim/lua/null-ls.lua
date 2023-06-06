@@ -39,11 +39,16 @@ require("null-ls").setup({
             runtime_condition = has_exec("golines"),
         }),
 
+
+        -- Lua
+        builtins.formatting.lua_format,
+
         -- SQL
         builtins.formatting.sqlformat,
 
         -- Python
         builtins.formatting.black,
+        builtins.diagnostics.pylint,
 
         -- YAML
         builtins.formatting.yamlfmt,

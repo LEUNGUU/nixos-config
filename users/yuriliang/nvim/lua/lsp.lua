@@ -4,37 +4,29 @@ local lsp = require('lsp-zero')
 lsp.preset('recommended')
 
 -- Fix Undefined global 'vim'
-lsp.configure('sumneko_lua', {
-    settings = {
-        Lua = {
-            diagnostics = {
-                globals = { 'vim' }
-            }
-        }
-    }
-})
+lsp.configure('sumneko_lua',
+              {settings = {Lua = {diagnostics = {globals = {'vim'}}}}})
 
 lsp.set_preferences({
     suggest_lsp_servers = false,
-    sign_icons = {
-        error = '✘',
-        warn = '',
-        hint = '',
-        info = 'ⁱ'
-    }
+    sign_icons = {error = '✘', warn = '', hint = '', info = 'ⁱ'}
 })
 
 lsp.setup_nvim_cmp({
     sources = {
-        { name = 'buffer', option = { get_bufnrs = function() return vim.api.nvim_list_bufs() end } },
-        { name = 'nvim_lsp' },
-        { name = 'path' },
-        { name = 'vsnip' },
+        {name = 'nvim_lsp'}, {
+            name = 'buffer',
+            option = {
+                get_bufnrs = function()
+                    return vim.api.nvim_list_bufs()
+                end
+            }
+        }, {name = 'path'}, {name = 'vsnip'}
     }
 })
 
 lsp.on_attach(function(client, bufnr)
-    local opts = { buffer = bufnr, remap = false }
+    local opts = {buffer = bufnr, remap = false}
 
     if client.name == "eslint" then
         vim.cmd.LspStop('eslint')
@@ -53,28 +45,11 @@ lsp.on_attach(function(client, bufnr)
     vim.keymap.set("i", "<leader>sh", vim.lsp.buf.signature_help, opts)
 end)
 
-lsp.configure('pyright', {
-    settings = {
-        python = {
-            analysis = {
-                autoSearchPaths = true,
-                useLibraryCodeForTypes = false,
-                diagnosticMode = 'workspace',
-            }
-        }
-    }
-})
-
-
 vim.diagnostic.config({
     signs = true,
     underline = true,
     update_in_insert = false,
     severity_sort = true,
-    virtual_text = {
-        spacing = 4,
-        prefix = '●',
-    },
+    virtual_text = {spacing = 4, prefix = '●'}
 })
 lsp.setup()
-

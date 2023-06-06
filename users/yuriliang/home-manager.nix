@@ -38,6 +38,8 @@ in {
     pkgs.watch
     pkgs.direnv
     pkgs.nix-direnv
+    pkgs.cmake
+    pkgs.gcc9
 
     pkgs.gopls
   ] ++ (lib.optionals isLinux [
@@ -62,6 +64,7 @@ in {
   home.file.".gdbinit".source = ./gdbinit;
   home.file.".inputrc".source = ./inputrc;
   home.file.".xrandr-4k".source = ./xrandr;
+  home.file.".pylintrc".source = ./pylintrc;
 
   home.file.".local/bin" = {
     source = ./tmuxMaster;
@@ -380,7 +383,7 @@ in {
       # diagnostic
       vimExtraPlugins.trouble-nvim
       # comment
-      customVim.nvim-comment
+      vimExtraPlugins.Comment-nvim
       vimExtraPlugins.todo-comments-nvim
       # Syntax highlighting
       (vimPlugins.nvim-treesitter.withPlugins
@@ -397,8 +400,8 @@ in {
       customVim.mason
 
       # Linting
-      # vimExtraPlugins.null-ls-nvim
-      customVim.null-ls
+      vimExtraPlugins.null-ls-nvim
+      # customVim.null-ls
 
       # Completion
       vimExtraPlugins.cmp-nvim-lsp
@@ -447,6 +450,7 @@ in {
       :luafile ~/.config/nvim/lua/telescope.lua
       :luafile ~/.config/nvim/lua/treesitter.lua
       :luafile ~/.config/nvim/lua/trouble.lua
+      :luafile ~/.config/nvim/lua/comment.lua
     '';
   };
 
