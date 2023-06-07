@@ -4,6 +4,8 @@
   # https://github.com/nix-community/home-manager/pull/2408
   environment.pathsToLink = [ "/share/zsh" ];
 
+  programs.zsh.enable = true;
+
   users.users.yuriliang = {
     isNormalUser = true;
     home = "/home/yuriliang";

@@ -44,7 +44,6 @@ in {
     pkgs.gopls
   ] ++ (lib.optionals isLinux [
     pkgs.firefox
-    pkgs.k2pdfopt
     pkgs.rofi
   ]);
 
