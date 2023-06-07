@@ -145,7 +145,7 @@ in {
       "eval \"$(direnv hook zsh)\""
     ]);
     envExtra = lib.strings.concatStrings (lib.strings.intersperse "\n" [
-      "export GHQ_ROOT=\"$HOME/development\""
+      "export GHQ_ROOT=\"/host/yurliang/development\""
     ]);
   };
 
