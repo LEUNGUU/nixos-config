@@ -41,8 +41,6 @@ vim.keymap.set("n", "<Leader>tn", "<cmd>setlocal nonumber!<CR>")
 vim.keymap.set("n", "<leader>w", vim.cmd.write)
 
 -- Plugin Mappping
--- LSP
-vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
 -- Spectre
 vim.keymap.set("n", "<Leader>so", "<cmd>lua require('spectre').open()<CR>")
 vim.keymap.set("n", "<Leader>sw",

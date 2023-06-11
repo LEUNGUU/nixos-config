@@ -3,35 +3,33 @@
 local lsp = require('lsp-zero')
 lsp.preset('recommended')
 
--- Fix Undefined global 'vim'
-lsp.configure('sumneko_lua',
-              {settings = {Lua = {diagnostics = {globals = {'vim'}}}}})
+lsp.ensure_installed({'jedi_language_server', 'dockerls', 'jsonls', 'lua_ls'})
+
+require('mason').setup({ensure_installed = {'black'}})
 
 lsp.set_preferences({
     suggest_lsp_servers = false,
-    sign_icons = {error = '✘', warn = '', hint = '', info = 'ⁱ'}
+    sign_icons = {error = '✘', warn = '▲', hint = '⚑', info = '»'}
 })
 
 lsp.setup_nvim_cmp({
     sources = {
-        {name = 'nvim_lsp'}, {
+        {name = 'nvim_lsp', group_index = 1}, {
             name = 'buffer',
             option = {
                 get_bufnrs = function()
                     return vim.api.nvim_list_bufs()
-                end
+                end,
+                group_index = 2
             }
-        }, {name = 'path'}, {name = 'vsnip'}
+        }, {name = 'path', group_index = 2}
     }
 })
 
+vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
+
 lsp.on_attach(function(client, bufnr)
     local opts = {buffer = bufnr, remap = false}
-
-    if client.name == "eslint" then
-        vim.cmd.LspStop('eslint')
-        return
-    end
 
     vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
     vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)

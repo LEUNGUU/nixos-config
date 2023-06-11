@@ -9,10 +9,11 @@ let
   # https://github.com/sharkdp/bat/issues/1145
   manpager = (pkgs.writeShellScriptBin "manpager" (if isDarwin then ''
     sh -c 'col -bx | bat -l man -p'
-    '' else ''
+  '' else ''
     cat "$1" | col -bx | bat --language man --style plain
   ''));
-in {
+in
+{
   # Home-manager 22.11 requires this be set. We never set it so we have
   # to use the old state version.
   home.stateVersion = "18.09";
@@ -38,6 +39,8 @@ in {
     pkgs.watch
     pkgs.direnv
     pkgs.nix-direnv
+    pkgs.unzip
+    pkgs.cargo
     pkgs.cmake
     pkgs.gcc9
 
@@ -92,7 +95,7 @@ in {
 
   programs.bash = {
     enable = true;
-    shellOptions = [];
+    shellOptions = [ ];
     historyControl = [ "ignoredups" "ignorespace" ];
     initExtra = builtins.readFile ./bashrc;
 
@@ -123,8 +126,8 @@ in {
       size = 20000;
     };
     shellAliases = {
-      xrandr-4k="bash $HOME/.xrandr-4k";
-      ll="exa -l -g --icons";
+      xrandr-4k = "bash $HOME/.xrandr-4k";
+      ll = "exa -l -g --icons";
       ls = "exa --icons";
       gpl = "git pull";
       ga = "git add";
@@ -267,7 +270,7 @@ in {
       prettylog = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(r) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative";
       root = "rev-parse --show-toplevel";
     };
-    ignores = ["flake.nix" "flake.lock" ".envrc" ".direnv/"];
+    ignores = [ "flake.nix" "flake.lock" ".envrc" ".direnv/" ];
     extraConfig = {
       branch.autosetuprebase = "always";
       color.ui = true;
@@ -387,16 +390,26 @@ in {
       # Syntax highlighting
       (vimPlugins.nvim-treesitter.withPlugins
         (p: [
-        p.bash p.cmake p.dockerfile p.gitignore p.go p.json p.python p.yaml p.toml p.markdown
+          p.bash
+          p.cmake
+          p.dockerfile
+          p.gitignore
+          p.go
+          p.json
+          p.python
+          p.yaml
+          p.toml
+          p.markdown
         ])
       )
 
       #LSP
+      vimExtraPlugins.lsp-zero-nvim
       vimExtraPlugins.nvim-lspconfig
       vimExtraPlugins.goto-preview
       vimPlugins.vim-terraform
-      # vimExtraPlugins.mason-nvim
-      customVim.mason
+      vimExtraPlugins.mason-nvim
+      vimExtraPlugins.mason-lspconfig-nvim
 
       # Linting
       vimExtraPlugins.null-ls-nvim
@@ -421,10 +434,8 @@ in {
       vimExtraPlugins.nvim-surround
       vimPlugins.vim-tmux-navigator
 
-      customVim.lsp-zero
-      customVim.nvim-colorizer
+      vimExtraPlugins.nvim-colorizer-lua
       customVim.vim-arsync
-      customVim.mason-lspconfig
     ];
 
     extraPackages = with pkgs; [
