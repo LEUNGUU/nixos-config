@@ -59,6 +59,9 @@ require("null-ls").setup({
         -- json
         builtins.formatting.prettierd,
 
+        -- terraform
+        builtins.formatting.terraform_fmt,
+
         -- Shell
         -- builtins.code_actions.shellcheck,
         builtins.diagnostics.shellcheck.with({

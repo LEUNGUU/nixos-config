@@ -67,11 +67,17 @@ in
   home.file.".inputrc".source = ./inputrc;
   home.file.".xrandr-4k".source = ./xrandr;
   home.file.".pylintrc".source = ./pylintrc;
+  home.file.".flakeinit".source = ./flakeinit;
 
   home.file.".local/bin" = {
     source = ./tmuxMaster;
     recursive = true;
     executable = true;
+  };
+
+  home.file.".local/share/fonts" = {
+    source = ./fonts;
+    recursive = true;
   };
 
   xdg.configFile."i3/config".text = builtins.readFile ./i3;
@@ -127,6 +133,7 @@ in
     };
     shellAliases = {
       xrandr-4k = "bash $HOME/.xrandr-4k";
+      flakeinit = "bash $HOME/.flakeinit";
       ll = "exa -l -g --icons";
       ls = "exa --icons";
       gpl = "git pull";
@@ -270,7 +277,7 @@ in
       prettylog = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(r) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative";
       root = "rev-parse --show-toplevel";
     };
-    ignores = [ "flake.nix" "flake.lock" ".envrc" ".direnv/" ];
+    ignores = [ "flake.nix" "flake.lock" ".envrc" ".direnv/" ".env" ];
     extraConfig = {
       branch.autosetuprebase = "always";
       color.ui = true;
@@ -370,23 +377,23 @@ in
     package = pkgs.neovim-nightly;
 
     plugins = with pkgs; [
-      vimExtraPlugins.rose-pine
-      vimExtraPlugins.nui-nvim
-      vimExtraPlugins.nvim-web-devicons
-      vimExtraPlugins.neo-tree-nvim
-      vimExtraPlugins.lualine-nvim
-      vimExtraPlugins.gitsigns-nvim
-      vimExtraPlugins.nvim-autopairs
+      customVim.rose-pine
+      customVim.nvim-nui
+      customVim.nvim-web-devicons
+      customVim.neo-tree
+      customVim.nvim-lualine
+      customVim.nvim-gitsigns
+      customVim.nvim-autopairs
 
       # telescope
-      vimExtraPlugins.plenary-nvim
-      vimExtraPlugins.telescope-nvim
-      vimPlugins.telescope-ui-select-nvim
+      customVim.nvim-plenary
+      customVim.nvim-telescope
+      customVim.telescope-ui-select
       # diagnostic
-      vimExtraPlugins.trouble-nvim
+      customVim.nvim-trouble
       # comment
-      vimExtraPlugins.Comment-nvim
-      vimExtraPlugins.todo-comments-nvim
+      customVim.nvim-comment
+      customVim.todo-comments
       # Syntax highlighting
       (vimPlugins.nvim-treesitter.withPlugins
         (p: [
@@ -404,37 +411,38 @@ in
       )
 
       #LSP
-      vimExtraPlugins.lsp-zero-nvim
-      vimExtraPlugins.nvim-lspconfig
-      vimExtraPlugins.goto-preview
+      # customVim.lsp-zero
+      customVim.lsp-signature
+      customVim.nvim-lspconfig
+      customVim.mason
+      customVim.mason-lspconfig
       vimPlugins.vim-terraform
-      vimExtraPlugins.mason-nvim
-      vimExtraPlugins.mason-lspconfig-nvim
+      customVim.goto-preview
 
       # Linting
-      vimExtraPlugins.null-ls-nvim
-      # customVim.null-ls
+      customVim.null-ls
 
       # Completion
-      vimExtraPlugins.cmp-nvim-lsp
-      vimExtraPlugins.cmp-nvim-lua
-      vimExtraPlugins.cmp-buffer
-      vimExtraPlugins.cmp-path
-      vimExtraPlugins.nvim-cmp
-      vimExtraPlugins.cmp-cmdline
+      customVim.cmp-nvim-lsp
+      customVim.cmp-nvim-lua
+      customVim.cmp-buffer
+      customVim.cmp-path
+      customVim.nvim-cmp
+      customVim.cmp-cmdline
+      customVim.lspkind
 
       # Snippets
-      vimExtraPlugins.LuaSnip
-      vimExtraPlugins.cmp-luasnip
-      vimExtraPlugins.neodev-nvim
+      customVim.LuaSnip
+      customVim.cmp-luasnip
+      customVim.nvim-neodev
 
       # Others
-      vimExtraPlugins.persisted-nvim
+      customVim.nvim-persisted
       vimExtraPlugins.nvim-treesitter-textobjects
-      vimExtraPlugins.nvim-surround
+      customVim.nvim-surround
       vimPlugins.vim-tmux-navigator
 
-      vimExtraPlugins.nvim-colorizer-lua
+      customVim.nvim-colorizer
       customVim.vim-arsync
     ];
 
@@ -456,6 +464,7 @@ in
       :luafile ~/.config/nvim/lua/colorizer.lua
       :luafile ~/.config/nvim/lua/goto-preview.lua
       :luafile ~/.config/nvim/lua/lsp.lua
+      :luafile ~/.config/nvim/lua/nvim-cmp.lua
       :luafile ~/.config/nvim/lua/neotree.lua
       :luafile ~/.config/nvim/lua/telescope.lua
       :luafile ~/.config/nvim/lua/treesitter.lua

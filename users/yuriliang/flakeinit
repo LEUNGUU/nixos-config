@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# This is a script for init flake
+
+read -p "Enter technical stack(hashi, python, etc): " stack
+
+nix flake init --template github:the-nix-way/dev-templates#$stack
+
+

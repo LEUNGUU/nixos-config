@@ -11,9 +11,4 @@ require('colorizer').setup({
 	svelte = { rgb_fn = true },
 	vim = { names = false },
 	tmux = { names = false },
-	'javascript',
-	'javascriptreact',
-	'typescript',
-	'typescriptreact',
-	'lua',
 })

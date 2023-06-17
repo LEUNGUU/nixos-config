@@ -6,13 +6,11 @@ let sources = import ../../nix/sources.nix; in rec {
     rose-pine = vimUtils.buildVimPlugin{
       name = "rose-pine";
       src = sources.rose-pine;
-      buildPhase = ":";
     };
 
     lsp-zero = vimUtils.buildVimPlugin{
       name = "lsp-zero";
       src = sources.lsp-zero;
-      buildPhase = ":";
     };
 
     mason = vimUtils.buildVimPlugin{
@@ -36,25 +34,26 @@ let sources = import ../../nix/sources.nix; in rec {
     cmp-buffer = vimUtils.buildVimPlugin{
       name = "cmp-buffer";
       src = sources.cmp-buffer;
-      buildPhase = ":";
+    };
+
+    cmp-cmdline = vimUtils.buildVimPlugin{
+      name = "cmp-cmdline";
+      src = sources.cmp-cmdline;
     };
 
     cmp-path = vimUtils.buildVimPlugin{
       name = "cmp-path";
       src = sources.cmp-path;
-      buildPhase = ":";
     };
 
     cmp-nvim-lsp = vimUtils.buildVimPlugin{
       name = "cmp-nvim-lsp";
       src = sources.cmp-nvim-lsp;
-      buildPhase = ":";
     };
 
     cmp-nvim-lua = vimUtils.buildVimPlugin{
       name = "cmp-nvim-lua";
       src = sources.cmp-nvim-lua;
-      buildPhase = ":";
     };
 
     LuaSnip = vimUtils.buildVimPlugin{
@@ -69,10 +68,9 @@ let sources = import ../../nix/sources.nix; in rec {
       buildPhase = ":";
     };
 
-    cmp_luasnip = vimUtils.buildVimPlugin{
-      name = "cmp_luasnip";
-      src = sources.cmp_luasnip;
-      buildPhase = ":";
+    cmp-luasnip = vimUtils.buildVimPlugin{
+      name = "cmp-luasnip";
+      src = sources.cmp-luasnip;
     };
 
     nvim-web-devicons = vimUtils.buildVimPlugin{
@@ -84,7 +82,6 @@ let sources = import ../../nix/sources.nix; in rec {
     nvim-nui = vimUtils.buildVimPlugin{
       name = "nvim-nui";
       src = sources.nvim-nui;
-      buildPhase = ":";
     };
 
     nvim-persisted = vimUtils.buildVimPlugin{
@@ -126,19 +123,16 @@ let sources = import ../../nix/sources.nix; in rec {
     nvim-colorizer = vimUtils.buildVimPlugin{
       name = "nvim-colorizer";
       src = sources.nvim-colorizer;
-      buildPhase = ":";
     };
 
     goto-preview = vimUtils.buildVimPlugin{
       name = "goto-preview";
       src = sources.goto-preview;
-      buildPhase = ":";
     };
 
     nvim-neodev = vimUtils.buildVimPlugin{
       name = "nvim-neodev";
       src = sources.nvim-neodev;
-      buildPhase = ":";
     };
 
     lsp-signature = vimUtils.buildVimPlugin{
@@ -150,7 +144,11 @@ let sources = import ../../nix/sources.nix; in rec {
     todo-comments = vimUtils.buildVimPlugin{
       name = "todo-comments";
       src = sources.todo-comments;
-      buildPhase = ":";
+    };
+
+    nvim-comment = vimUtils.buildVimPlugin{
+      name = "nvim-comment";
+      src = sources.nvim-comment;
     };
 
     nvim-trouble = vimUtils.buildVimPlugin{
@@ -161,19 +159,16 @@ let sources = import ../../nix/sources.nix; in rec {
     nvim-surround = vimUtils.buildVimPlugin{
       name = "nvim-surround";
       src = sources.nvim-surround;
-      buildPhase = ":";
     };
 
     vim-arsync = vimUtils.buildVimPlugin{
       name = "vim-arsync";
       src = sources.vim-arsync;
-      buildPhase = ":";
     };
 
     vim-terraform = vimUtils.buildVimPlugin{
       name = "vim-terraform";
       src = sources.vim-terraform;
-      buildPhase = ":";
     };
 
     nvim-plenary = vimUtils.buildVimPlugin {
@@ -210,6 +205,11 @@ let sources = import ../../nix/sources.nix; in rec {
     nvim-treesitter-textobjects = vimUtils.buildVimPlugin {
       name = "nvim-treesitter-textobjects";
       src = sources.nvim-treesitter-textobjects;
+    };
+
+    lspkind = vimUtils.buildVimPlugin {
+      name = "lspkind";
+      src = sources.lspkind;
     };
   };
 }

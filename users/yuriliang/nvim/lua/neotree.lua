@@ -60,36 +60,51 @@ require('neo-tree').setup({
 	},
 
 	default_component_configs = {
+        container = {
+            enable_character_fade = true
+        },
 		indent = {
-			padding = 0,
+            indent_size = 2,
+            padding = 1, -- extra padding on left hand side
+            -- indent guides
+            with_markers = true,
+            indent_marker = "│",
+            last_indent_marker = "└",
+            highlight = "NeoTreeIndentMarker",
+            -- expander config, needed for nesting files
+            with_expanders = nil, -- if nil and file nesting is enabled, will enable expanders
+            expander_collapsed = "",
+            expander_expanded = "",
+            expander_highlight = "NeoTreeExpander",
 		},
 		icon = {
-			folder_closed = '',
-			folder_open = '',
-			folder_empty = '',
-			default = '',
+            folder_closed = "",
+            folder_open = "",
+            folder_empty = "ﰊ",
+            default = "*",
+            highlight = "NeoTreeFileIcon"
 		},
 		modified = {
 			symbol = '•',
 		},
 		name = {
 			trailing_slash = true,
-			use_git_status_colors = false,
+			use_git_status_colors = true,
 		},
 		git_status = {
 			align = 'right',
 			symbols = {
 				-- Change type
-				added = 'A',
-				deleted = 'D',
-				modified = 'M',
-				renamed = 'R',
-				-- Status type
-				untracked = 'U',
-				ignored = 'I',
-				unstaged = '',
-				staged = 'S',
-				conflict = 'C',
+                added     = "", -- or "✚", but this is redundant info if you use git_status_colors on the name
+                modified  = "", -- or "", but this is redundant info if you use git_status_colors on the name
+                deleted   = "✖",-- this can only be used in the git_status source
+                renamed   = "",-- this can only be used in the git_status source
+                -- Status type
+                untracked = "",
+                ignored   = "",
+                unstaged  = "",
+                staged    = "",
+                conflict  = "",
 			},
 		},
 	},
@@ -181,6 +196,7 @@ require('neo-tree').setup({
 				'node_modules',
 				'.DS_Store',
 				'thumbs.db',
+                'node_modules',
 			},
 			-- remains hidden even if visible is toggled to true
 			never_show = {},
